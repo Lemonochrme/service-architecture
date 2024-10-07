@@ -1,13 +1,10 @@
 package fr.insa.ws.soap;
 
-import fr.insa.ws.analyse.*;
+import fr.insa.ws.analyse.AnalyserChaineApplication;
 
-public class App 
-{
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
-        AnalyseChaineWS toto = new AnalyseChaineWS();
-        System.out.println(toto.analyser("toto"));
+public class App {
+    public static void main(String[] args) {
+        AnalyserChaineApplication app = new AnalyserChaineApplication();
+        app.demarrerService();
     }
 }
