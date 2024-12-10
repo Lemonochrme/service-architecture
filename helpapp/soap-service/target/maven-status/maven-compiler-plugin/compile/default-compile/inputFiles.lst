@@ -1,1 +1,10 @@
-/home/robin/Desktop/helpapp/soap-service/src/main/java/insa/application/helpapp/soap/SoapApplication.java
+/home/yoboujon/Documents/GEI/service-architecture/helpapp/soap-service/src/main/java/com/example/producingwebservice/CountryEndpoint.java
+/home/yoboujon/Documents/GEI/service-architecture/helpapp/soap-service/src/main/java/com/example/producingwebservice/CountryRepository.java
+/home/yoboujon/Documents/GEI/service-architecture/helpapp/soap-service/src/main/java/com/example/producingwebservice/ProducingWebServiceApplication.java
+/home/yoboujon/Documents/GEI/service-architecture/helpapp/soap-service/src/main/java/com/example/producingwebservice/WebServiceConfig.java
+/home/yoboujon/Documents/GEI/service-architecture/helpapp/soap-service/target/generated-sources/jaxb/io/spring/guides/gs_producing_web_service/Country.java
+/home/yoboujon/Documents/GEI/service-architecture/helpapp/soap-service/target/generated-sources/jaxb/io/spring/guides/gs_producing_web_service/Currency.java
+/home/yoboujon/Documents/GEI/service-architecture/helpapp/soap-service/target/generated-sources/jaxb/io/spring/guides/gs_producing_web_service/GetCountryRequest.java
+/home/yoboujon/Documents/GEI/service-architecture/helpapp/soap-service/target/generated-sources/jaxb/io/spring/guides/gs_producing_web_service/GetCountryResponse.java
+/home/yoboujon/Documents/GEI/service-architecture/helpapp/soap-service/target/generated-sources/jaxb/io/spring/guides/gs_producing_web_service/ObjectFactory.java
+/home/yoboujon/Documents/GEI/service-architecture/helpapp/soap-service/target/generated-sources/jaxb/io/spring/guides/gs_producing_web_service/package-info.java
