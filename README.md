@@ -7,6 +7,25 @@ mvn compile
 mvn spring-boot:run
 ```
 
+## Roadmap
+
+### Functionnalities
+
+- We have `users` which could be either _volunteers_, _user_ or _admin_
+- Requests that can have multiple status: _Waiting_, _Validated_, _Rejected_, _Chosen_, _Realized_
+- Requests can be done by `users` only
+- Feedback can be done by `volunteers` and `users`
+
+### APIs
+
+- [ ] `Rest` Create user
+- [ ] `Rest` Login with user and password
+- [ ] `Rest` Make sure admin can do everything and users don't
+- [ ] `Rest` Create a Help Request
+- [ ] `Rest` Modify the Help Request status
+- [ ] `Rest` Create a User Feedback
+- [ ] `Soap` Gather User Feedbacks
+
 ## Check `SOAP` Requests
 
 Please install the following application for ease of use SoapUI:
