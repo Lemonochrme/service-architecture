@@ -7,9 +7,11 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>rest-service</module>
-        <module>soap-service</module>
-	<module>user-service</module>
+        <module>user-service</module>
+        <module>request-service</module>
+        <module>volunteer-service</module>
+        <module>feedback-service</module>
+        <module>administration-service</module>
     </modules>
 
     <dependencyManagement>
