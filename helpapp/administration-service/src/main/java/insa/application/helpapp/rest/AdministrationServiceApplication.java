@@ -7,14 +7,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 @RestController
-public class RestApplication {
+public class AdministrationServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(RestApplication.class, args);
+        SpringApplication.run(AdministrationServiceApplication.class, args);
     }
 
     @GetMapping("/hello")
     public String hello() {
-        return "Hello from REST!";
+        return "Hello from Administration Service!";
     }
 }
