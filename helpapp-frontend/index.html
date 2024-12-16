@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HelpApp</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+    }
+    header {
+      background-color: #4CAF50;
+      color: white;
+      text-align: center;
+      padding: 1rem 0;
+    }
+    main {
+      padding: 2rem;
+    }
+    section {
+      margin-bottom: 2rem;
+      padding: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: white;
+    }
+    section h2 {
+      margin-top: 0;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    form input, form textarea, form select, form button {
+      margin-bottom: 1rem;
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .response {
+      margin-top: 1rem;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>HelpApp</h1>
+    <p>Facilitons l'entraide entre les personnes</p>
+  </header>
+  <main>
+    <section id="user-registration">
+      <h2>Créer un compte utilisateur</h2>
+      <form id="register-form">
+        <input type="text" id="name" placeholder="Nom" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="password" id="password" placeholder="Mot de passe" required>
+        <select id="role" required>
+          <option value="REQUESTER">Demandeur</option>
+          <option value="VOLUNTEER">Volontaire</option>
+        </select>
+        <button type="submit">Créer un compte</button>
+      </form>
+      <div class="response" id="register-response"></div>
+    </section>
+
+    <section id="create-request">
+      <h2>Créer une demande d'aide</h2>
+      <form id="request-form">
+        <input type="number" id="user-id" placeholder="Votre ID utilisateur" required>
+        <textarea id="details" placeholder="Détails de la demande" required></textarea>
+        <button type="submit">Soumettre la demande</button>
+      </form>
+      <div class="response" id="request-response"></div>
+    </section>
+
+    <section id="view-requests">
+      <h2>Voir les demandes d'aide</h2>
+      <button id="fetch-requests">Afficher les demandes</button>
+      <ul id="request-list"></ul>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
