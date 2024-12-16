@@ -2,7 +2,9 @@ package insa.application.helpapp.rest;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
@@ -19,9 +21,23 @@ public class RequestServiceApplication {
         SpringApplication.run(RequestServiceApplication.class, args);
     }
 
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+
+    private final RestTemplate restTemplate = new RestTemplate();
+
     // Create a new help request
     @PostMapping
     public HelpRequest createRequest(@RequestBody HelpRequest request) {
+        if (request.getUserId() == null || request.getDetails() == null) {
+            throw new RuntimeException("User ID and details are required");
+        }
+        // Validate user via UserService
+        if (!isUserValid(request.getUserId())) {
+            throw new RuntimeException("Invalid user ID");
+        }
         long id = idGenerator.getAndIncrement();
         request.setId(id);
         request.setStatus("Pending");
@@ -29,58 +45,36 @@ public class RequestServiceApplication {
         return request;
     }
 
-    // Get all requests (with optional status filter)
-    @GetMapping
-    public List<HelpRequest> getAllRequests(@RequestParam(required = false) String status) {
-        if (status == null) {
-            return new ArrayList<>(requestDatabase.values());
-        }
-        List<HelpRequest> filteredRequests = new ArrayList<>();
+    // Get requests for a specific user
+    @GetMapping("/user/{userId}")
+    public List<HelpRequest> getRequestsByUser(@PathVariable Long userId) {
+        List<HelpRequest> userRequests = new ArrayList<>();
         for (HelpRequest request : requestDatabase.values()) {
-            if (request.getStatus().equalsIgnoreCase(status)) {
-                filteredRequests.add(request);
+            if (request.getUserId().equals(userId)) {
+                userRequests.add(request);
             }
         }
-        return filteredRequests;
+        return userRequests;
     }
 
-    // Get a specific request by ID
-    @GetMapping("/{id}")
-    public HelpRequest getRequest(@PathVariable Long id) {
-        return Optional.ofNullable(requestDatabase.get(id))
-                .orElseThrow(() -> new RuntimeException("Request not found"));
-    }
-
-    // Update a request (e.g., status or details)
-    @PutMapping("/{id}")
-    public HelpRequest updateRequest(@PathVariable Long id, @RequestBody HelpRequest updatedRequest) {
-        if (!requestDatabase.containsKey(id)) {
-            throw new RuntimeException("Request not found");
+    // Simulate user validation (integration with UserService)
+    private boolean isUserValid(Long userId) {
+        try {
+            // Call UserService to check if the user exists
+            String url = "http://localhost:8083/users/" + userId;
+            restTemplate.getForObject(url, Object.class); // Throws exception if user doesn't exist
+            return true;
+        } catch (Exception e) {
+            return false;
         }
-        HelpRequest existingRequest = requestDatabase.get(id);
-        if (updatedRequest.getDetails() != null) {
-            existingRequest.setDetails(updatedRequest.getDetails());
-        }
-        if (updatedRequest.getStatus() != null) {
-            existingRequest.setStatus(updatedRequest.getStatus());
-        }
-        return existingRequest;
-    }
-
-    // Delete a request
-    @DeleteMapping("/{id}")
-    public String deleteRequest(@PathVariable Long id) {
-        if (requestDatabase.remove(id) == null) {
-            throw new RuntimeException("Request not found");
-        }
-        return "Request deleted successfully";
     }
 
     // HelpRequest entity
     static class HelpRequest {
         private Long id;
+        private Long userId;
         private String details;
-        private String status; // e.g., Pending, Validated, Rejected, Completed
+        private String status; // Pending, Validated, Rejected, Completed
 
         // Getters and setters
         public Long getId() {
@@ -89,6 +83,14 @@ public class RequestServiceApplication {
 
         public void setId(Long id) {
             this.id = id;
+        }
+
+        public Long getUserId() {
+            return userId;
+        }
+
+        public void setUserId(Long userId) {
+            this.userId = userId;
         }
 
         public String getDetails() {

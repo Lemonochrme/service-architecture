@@ -22,6 +22,9 @@ public class UserServiceApplication {
     // Create a new user
     @PostMapping
     public User createUser(@RequestBody User user) {
+        if (user.getPassword() == null || user.getRole() == null) {
+            throw new RuntimeException("Password and role are required");
+        }
         long id = idGenerator.getAndIncrement();
         user.setId(id);
         userDatabase.put(id, user);
@@ -35,18 +38,35 @@ public class UserServiceApplication {
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
-    // Update a user by ID
-    @PutMapping("/{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
-        if (!userDatabase.containsKey(id)) {
-            throw new RuntimeException("User not found");
-        }
-        updatedUser.setId(id);
-        userDatabase.put(id, updatedUser);
-        return updatedUser;
+    // Authenticate a user
+    @PostMapping("/authenticate")
+    public String authenticate(@RequestParam String email, @RequestParam String password) {
+        return userDatabase.values().stream()
+                .filter(user -> user.getEmail().equals(email) && user.getPassword().equals(password))
+                .findFirst()
+                .map(user -> "Authentication successful for user ID: " + user.getId())
+                .orElse("Authentication failed");
     }
 
-    // Delete a user by ID
+    // Update user details (excluding password)
+    @PutMapping("/{id}")
+    public User updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
+        User existingUser = Optional.ofNullable(userDatabase.get(id))
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (updatedUser.getName() != null) {
+            existingUser.setName(updatedUser.getName());
+        }
+        if (updatedUser.getEmail() != null) {
+            existingUser.setEmail(updatedUser.getEmail());
+        }
+        if (updatedUser.getRole() != null) {
+            existingUser.setRole(updatedUser.getRole());
+        }
+        return existingUser;
+    }
+
+    // Delete a user
     @DeleteMapping("/{id}")
     public String deleteUser(@PathVariable Long id) {
         if (userDatabase.remove(id) == null) {
@@ -60,7 +80,8 @@ public class UserServiceApplication {
         private Long id;
         private String name;
         private String email;
-        private String role;
+        private String password;
+        private String role; // REQUESTER, VOLUNTEER, ADMIN
 
         // Getters and setters
         public Long getId() {
@@ -85,6 +106,14 @@ public class UserServiceApplication {
 
         public void setEmail(String email) {
             this.email = email;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
         }
 
         public String getRole() {
