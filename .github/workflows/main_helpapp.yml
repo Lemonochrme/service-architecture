@@ -29,7 +29,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: java-app
-          path: '${{ github.workspace }}/helpapp-backend/*/target/*.jar'
+          path: '${{ github.workspace }}/helpapp-backend/*'
 
   deploy:
     runs-on: ubuntu-latest
@@ -53,11 +53,11 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_A84251CAC0104DC8A6709EE1E898E464 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_11555886AA084155873A3C256628D2F2 }}
 
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
+      - name: Run Maven Spring Boot
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'helpapp'
           slot-name: 'Production'
-          package: 'user-service/target/user-service-1.0-SNAPSHOT.jar'
+          package: '${{ github.workspace }}/helpapp-backend/user-service/target/user-service-1.0-SNAPSHOT.jar'
+          custom-command: 'mvn spring-boot:run -pl user-service'
           
