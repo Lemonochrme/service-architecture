@@ -101,3 +101,85 @@ curl -X POST -H "Content-Type: application/json" -d '{"description":"Available f
 - **Scalabilité** : Les microservices peuvent être déployés et mis à l'échelle individuellement.
 - **Flexibilité** : Possibilité d’utiliser différentes technologies pour chaque service.
 - **Maintenance** : Une meilleure isolation des fonctionnalités simplifie le débogage et les mises à jour.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#### Tester les services
+
+##### 1. **Créer un utilisateur avec UserService**
+```bash
+curl -X POST -H "Content-Type: application/json" \
+-d '{"name":"Jane Doe", "email":"jane@example.com", "password":"1234", "role":"REQUESTER"}' \
+http://localhost:8083/users
+```
+
+##### 2. **Créer une demande avec RequestService**
+```bash
+curl -X POST -H "Content-Type: application/json" \
+-d '{"userId":1, "details":"I need help with my groceries"}' \
+http://localhost:8082/requests
+```
+
+##### 3. **Valider une demande avec AdministrationService**
+```bash
+curl -X PUT http://localhost:8080/admin/requests/1/validate
+```
+
+##### 4. **Ajouter un feedback avec FeedbackService**
+```bash
+curl -X POST -H "Content-Type: application/json" \
+-d '{"requestId":1, "comment":"Great service!", "rating":5}' \
+http://localhost:8081/feedbacks
+```
+
+##### 5. **Un volontaire répond à une demande avec VolunteerService**
+```bash
+curl -X POST http://localhost:8084/volunteers/1/help?requestId=1
+```
+
+
+
+- **Lister les utilisateurs (UserService)** :
+  ```bash
+  curl -X GET http://localhost:8083/users/1
+  ```
+
+- **Lister les demandes associées à un utilisateur (RequestService)** :
+  ```bash
+  curl -X GET http://localhost:8082/requests/user/1
+  ```
+
+- **Lister les feedbacks pour une demande (FeedbackService)** :
+  ```bash
+  curl -X GET http://localhost:8081/feedbacks/request/1
+  ```
+
+- **Lister les actions des volontaires (VolunteerService)** :
+  ```bash
+  curl -X GET http://localhost:8084/volunteers/actions
+  ```
+

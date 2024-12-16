@@ -57,6 +57,12 @@ public class RequestServiceApplication {
         return userRequests;
     }
 
+    // Get all help requests
+    @GetMapping
+    public List<HelpRequest> getAllRequests() {
+        return new ArrayList<>(requestDatabase.values());
+    }
+
     // Simulate user validation (integration with UserService)
     private boolean isUserValid(Long userId) {
         try {
