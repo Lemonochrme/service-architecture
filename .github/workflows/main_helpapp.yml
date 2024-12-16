@@ -7,6 +7,7 @@ on:
   push:
     branches:
       - main
+      - actions
   workflow_dispatch:
 
 jobs:
@@ -58,6 +59,6 @@ jobs:
         with:
           app-name: 'helpapp'
           slot-name: 'Production'
-          package: '${{ github.workspace }}/helpapp-backend/user-service/target/user-service-1.0-SNAPSHOT.jar'
-          custom-command: 'mvn spring-boot:run -pl user-service'
+          package: '.'
+          startup-command: 'mvn spring-boot:run -pl user-service'
           
