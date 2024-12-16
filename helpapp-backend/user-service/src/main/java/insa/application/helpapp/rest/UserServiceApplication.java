@@ -2,8 +2,8 @@ package insa.application.helpapp.rest;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -55,12 +55,12 @@ public class UserServiceApplication {
 
     // Authenticate a user
     @PostMapping("/authenticate")
-    public String authenticate(@RequestParam String email, @RequestParam String password) {
+    public AuthResponse authenticate(@RequestBody AuthRequest authRequest) {
         return userDatabase.values().stream()
-                .filter(user -> user.getEmail().equals(email) && user.getPassword().equals(password))
+                .filter(user -> user.getEmail().equals(authRequest.getEmail()) && user.getPassword().equals(authRequest.getPassword()))
                 .findFirst()
-                .map(user -> "Authentication successful for user ID: " + user.getId())
-                .orElse("Authentication failed");
+                .map(user -> new AuthResponse(user.getId(), "Authentication successful", true))
+                .orElse(new AuthResponse(null, "Authentication failed", false));
     }
 
     // Update user details (excluding password)
@@ -90,6 +90,52 @@ public class UserServiceApplication {
         return "User deleted successfully";
     }
 
+    // Data transfer objects
+    static class AuthRequest {
+        private String email;
+        private String password;
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
+    }
+
+    static class AuthResponse {
+        private Long userId;
+        private String message;
+        private boolean success;
+
+        public AuthResponse(Long userId, String message, boolean success) {
+            this.userId = userId;
+            this.message = message;
+            this.success = success;
+        }
+
+        public Long getUserId() {
+            return userId;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public boolean isSuccess() {
+            return success;
+        }
+    }
+
     // User entity
     static class User {
         private Long id;
@@ -98,7 +144,6 @@ public class UserServiceApplication {
         private String password;
         private String role; // REQUESTER, VOLUNTEER, ADMIN
 
-        // Getters and setters
         public Long getId() {
             return id;
         }

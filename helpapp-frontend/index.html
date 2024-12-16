@@ -4,61 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HelpApp</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f9f9f9;
-    }
-    header {
-      background-color: #4CAF50;
-      color: white;
-      text-align: center;
-      padding: 1rem 0;
-    }
-    main {
-      padding: 2rem;
-    }
-    section {
-      margin-bottom: 2rem;
-      padding: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      background-color: white;
-    }
-    section h2 {
-      margin-top: 0;
-    }
-    form {
-      display: flex;
-      flex-direction: column;
-    }
-    form input, form textarea, form select, form button {
-      margin-bottom: 1rem;
-      padding: 0.5rem;
-      font-size: 1rem;
-    }
-    button {
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #45a049;
-    }
-    .response {
-      margin-top: 1rem;
-      color: #555;
-    }
-  </style>
 </head>
 <body>
   <header>
     <h1>HelpApp</h1>
   </header>
   <main>
+    <section id="user-login">
+      <h2>Connexion</h2>
+      <form id="login-form">
+        <input type="email" id="login-email" placeholder="Email" required>
+        <input type="password" id="login-password" placeholder="Mot de passe" required>
+        <button type="submit">Se connecter</button>
+      </form>
+      <div class="response" id="login-response"></div>
+    </section>
+
     <section id="user-registration">
       <h2>Créer un compte utilisateur</h2>
       <form id="register-form">
@@ -83,14 +44,69 @@
       </form>
       <div class="response" id="request-response"></div>
     </section>
-
-    <section id="view-requests">
-      <h2>Voir les demandes d'aide</h2>
-      <button id="fetch-requests">Afficher les demandes</button>
-      <ul id="request-list"></ul>
-    </section>
   </main>
 
-  <script src="script.js"></script>
+  <script>
+    const API_BASE = "http://localhost";
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const loginForm = document.getElementById("login-form");
+      const loginResponse = document.getElementById("login-response");
+      const registerForm = document.getElementById("register-form");
+      const registerResponse = document.getElementById("register-response");
+      const userRegistrationSection = document.getElementById("user-registration");
+
+      // Check if user is logged in
+      if (localStorage.getItem("userId")) {
+        userRegistrationSection.style.display = "none";
+      }
+
+      // User Login
+      loginForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const email = document.getElementById("login-email").value;
+        const password = document.getElementById("login-password").value;
+
+        try {
+          const response = await fetch(`${API_BASE}:8083/users/authenticate`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password }),
+          });
+          const result = await response.json();
+          if (result.success) {
+            localStorage.setItem("userId", result.userId);
+            loginResponse.textContent = `Connexion réussie : ID ${result.userId}`;
+            userRegistrationSection.style.display = "none";
+          } else {
+            loginResponse.textContent = `Échec de la connexion : ${result.message}`;
+          }
+        } catch (error) {
+          loginResponse.textContent = "Erreur lors de la connexion.";
+        }
+      });
+
+      // User Registration
+      registerForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const role = document.getElementById("role").value;
+
+        try {
+          const response = await fetch(`${API_BASE}:8083/users`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, email, password, role }),
+          });
+          const result = await response.json();
+          registerResponse.textContent = `Utilisateur créé : ID ${result.id}`;
+        } catch (error) {
+          registerResponse.textContent = "Erreur lors de la création de l'utilisateur.";
+        }
+      });
+    });
+  </script>
 </body>
 </html>
