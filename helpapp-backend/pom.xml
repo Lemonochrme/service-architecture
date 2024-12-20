@@ -12,6 +12,7 @@
         <module>volunteer-service</module>
         <module>feedback-service</module>
         <module>administration-service</module>
+        <module>role-service</module>
     </modules>
 
     <dependencyManagement>
