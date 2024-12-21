@@ -13,6 +13,9 @@ function roleDefine() {
 
 document.addEventListener("DOMContentLoaded", () => {
     roleDefine();
+    // setCookie("toto",12,1);
+    // console.log(checkCookie("toto"));
+    // console.log(getCookie("toto"));
 
     const loginForm = document.getElementById("login-form");
     const loginResponse = document.getElementById("login-response");
@@ -32,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const password = document.getElementById("login-password").value;
 
         try {
-            const response = await fetch(`${API_BASE}:8083/users/authenticate`, {
+            const response = await fetch(`${API_BASE}:${USER_PORT}/users/authenticate`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password }),
@@ -59,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const role = document.getElementById("role").value;
 
         try {
-            const response = await fetch(`${API_BASE}:8083/users`, {
+            const response = await fetch(`${API_BASE}:${USER_PORT}/users`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ name, email, password, role }),
