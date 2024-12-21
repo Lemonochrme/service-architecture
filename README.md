@@ -2,8 +2,8 @@
 Course Exercice : Application to help others
 
 ```bash
+./init.sh
 mvn compile
-
 mvn spring-boot:run
 ```
 
