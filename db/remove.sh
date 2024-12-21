@@ -1,21 +1,13 @@
 #!/bin/bash
 
-# Checks the .env file
-if [ -f .env ]; then
-  source .env
-  user="$SERVICE_ARCHITECTURE_USER"
-  pwd="$SERVICE_ARCHITECTURE_PASSWORD"
-else
-  echo ".env file not found. Please create one with USER and PASSWORD variables."
-  exit 1
-fi
+source ./db.sh
 
-
+check_env
 echo "Removing database 'service-architecture'..."
 if ! mariadb -u "$user" -p"$pwd" -e "DROP DATABASE \`service-architecture\`;"
 then
-  echo "Error: Failed to create database, check your .env"
+  echo -e $RED"Error: Failed to remove database:\n\t- Does the database exists ?\n\t- Have you checked your credentials ?"$RESET
   exit 1
 else
-  echo "Database removed successfully!"
+  echo -e $GREEN"Database removed successfully!"$RESET
 fi

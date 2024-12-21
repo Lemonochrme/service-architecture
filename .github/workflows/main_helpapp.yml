@@ -30,34 +30,3 @@ jobs:
         with:
           name: java-app
           path: '${{ github.workspace }}/helpapp-backend/*'
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    permissions:
-      id-token: write #This is required for requesting the JWT
-  
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v4
-        with:
-          name: java-app
-      
-      - name: Login to Azure
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_88F0F141C7084A8789D648390DA913D7 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_A84251CAC0104DC8A6709EE1E898E464 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_11555886AA084155873A3C256628D2F2 }}
-
-      - name: Run Maven Spring Boot
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: 'helpapp'
-          slot-name: 'Production'
-          package: '${{ github.workspace }}/helpapp-backend/user-service/target/user-service-1.0-SNAPSHOT.jar'
-          custom-command: 'mvn spring-boot:run -pl user-service'
-          
