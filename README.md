@@ -24,7 +24,7 @@ Course Exercice : Application to help others
 - [ ] `Rest` Create a Help Request
 - [ ] `Rest` Modify the Help Request status
 - [ ] `Rest` Create a User Feedback
-- [ ] `Soap` Gather User Feedbacks
+- [ ] `Rest` Gather User Feedbacks
 
 ## Check `SOAP` Requests
 
