@@ -5,6 +5,7 @@ source ./db/db.sh
 generate_properties()
 {
     url="$1/src/main/resources/application.properties"
+    mkdir -p "$1/src/main/resources"
     echo -e "server.port=$port
 spring.datasource.url=jdbc:mysql://localhost:3306/service-architecture
 spring.datasource.username=$user
