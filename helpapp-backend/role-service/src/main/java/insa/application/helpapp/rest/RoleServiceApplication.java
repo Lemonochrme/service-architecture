@@ -21,6 +21,19 @@ public class RoleServiceApplication {
         SpringApplication.run(RoleServiceApplication.class, args);
     }
 
+    // CORS Configuration
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**").allowedOrigins("*")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedHeaders("*");
+            }
+        };
+    }
+
     @GetMapping("/get_roles")
     public List<Role> getRoles() {
         return roleRepository.findAll();

@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://unpkg.com/htmx.org@1.9.12"></script> <!-- Include HTMX -->
+  <script src="base.js"></script> <!-- Include BASE -->
   <title>HelpApp</title>
 </head>
+
 <body>
   <header>
     <h1>HelpApp</h1>
@@ -27,8 +31,6 @@
         <input type="email" id="email" placeholder="Email" required>
         <input type="password" id="password" placeholder="Mot de passe" required>
         <select id="role" required>
-          <option value="REQUESTER">Demandeur</option>
-          <option value="VOLUNTEER">Volontaire</option>
         </select>
         <button type="submit">Créer un compte</button>
       </form>
@@ -49,7 +51,20 @@
   <script>
     const API_BASE = "http://localhost";
 
+    // Append the user-registration dropdown for each role from the database
+    function roleDefine() {
+      const select = document.getElementById("role");
+      fetchData(`${API_BASE}:8089/get_roles`).then(data => {
+        data.forEach(element => {
+          const option = createOption(element.id, element.name);
+          select.appendChild(option);
+        });
+      });
+    }
+
     document.addEventListener("DOMContentLoaded", () => {
+      roleDefine();
+
       const loginForm = document.getElementById("login-form");
       const loginResponse = document.getElementById("login-response");
       const registerForm = document.getElementById("register-form");
@@ -109,4 +124,5 @@
     });
   </script>
 </body>
+
 </html>

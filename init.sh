@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ./db.sh
+source ./db/db.sh
 
 check_env
 echo "> Creating database 'service-architecture'..."
@@ -11,14 +11,14 @@ then
 fi
 
 echo "> Uploading database 'service-architecture'..."
-if ! mariadb -u "$user" -p"$pwd" "service-architecture" < db.sql
+if ! mariadb -u "$user" -p"$pwd" "service-architecture" < db/db.sql
 then
   echo -e $RED"Error: Failed to execute db.sql, contact the maintainers."$RESET
   exit 1
 fi
 
 echo "> Populating database 'service-architecture'..."
-if ! mariadb -u "$user" -p"$pwd" "service-architecture" < init.sql
+if ! mariadb -u "$user" -p"$pwd" "service-architecture" < db/init.sql
 then
   echo -e $RED"Error: Failed to execute init.sql, contact the maintainers."$RESET
   exit 1

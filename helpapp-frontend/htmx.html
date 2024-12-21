@@ -1,0 +1,17 @@
+<body>
+    <h1>Dynamic Dropdown with HTMX</h1>
+    
+    <label for="roles">Choose a role:</label>
+    <select id="roles" hx-get="http://localhost:8089/get_roles" hx-target="#roles" hx-swap="outerHTML">
+        <!-- Initially empty, will be populated by HTMX -->
+        <option value="" disabled selected>Loading roles...</option>
+    </select>
+    
+    <button hx-get="http://localhost:8089/get_roles" hx-target="#roles" hx-swap="outerHTML">
+        Refresh Roles
+    </button>
+
+    <script>
+        // HTMX will automatically handle the JSON response and populate the dropdown
+    </script>
+</body>

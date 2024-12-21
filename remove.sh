@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ./db.sh
+source ./db/db.sh
 
 check_env
 echo "Removing database 'service-architecture'..."
