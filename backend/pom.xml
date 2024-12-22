@@ -7,8 +7,8 @@
     <packaging>pom</packaging>
 
     <modules>
-        <!-- Administation creates a dependency for other services -->
-        <module>administration</module>
+        <!-- database-manager is a dependency for other services -->
+        <module>database-manager</module>
         <module>request-service</module>
         <module>role-service</module>
         <module>user-service</module>

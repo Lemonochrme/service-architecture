@@ -10,11 +10,15 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDateTime;
+
 @SpringBootApplication
 @RestController
 public class RequestServiceApplication {
     @Autowired
     private AdministrationService administrationService;
+    @Autowired
+    private RequestRepository requestRepository;
     public static void main(String[] args) {
         SpringApplication.run(RequestServiceApplication.class, args);
     }
@@ -32,13 +36,18 @@ public class RequestServiceApplication {
         };
     }
 
-    @PostMapping("/post_message")
+    @PostMapping("/post_request")
     public ResponseEntity<?> postMessage(@RequestParam int idUser,@RequestParam String token, @RequestParam String message) {
         if(!administrationService.checkToken(idUser, token)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("User or token invalid.");
         };
 
-        
-        return ResponseEntity.ok("Message posted");
+        Request request = new Request();
+        // id_status = 1 means waiting. it is always set to 1 when created.
+        request.setIdStatus(1);
+        request.setIdUser(idUser);
+        request.setCreatedAt(LocalDateTime.now());
+        request.setMessage(message);
+        return ResponseEntity.ok(requestRepository.save(request));
     }
 }
