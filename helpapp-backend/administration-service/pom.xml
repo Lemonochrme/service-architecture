@@ -6,24 +6,27 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>administration-service</artifactId>
+    <packaging>jar</packaging>
 
     <dependencies>
-        <!-- Dépendance pour créer un service REST -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.33</version>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <!-- Plugin Maven pour Spring Boot -->
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>3.1.4</version>
-            </plugin>
-            
             <!-- Plugin pour configurer le compilateur -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

@@ -18,8 +18,8 @@ Course Exercice : Application to help others
 
 ### APIs
 
-- [ ] `Rest` Create user
-- [ ] `Rest` Login with user and password
+- [X] `Rest` Create user
+- [X] `Rest` Login with user and password
 - [ ] `Rest` Make sure admin can do everything and users don't
 - [ ] `Rest` Create a Help Request
 - [ ] `Rest` Modify the Help Request status

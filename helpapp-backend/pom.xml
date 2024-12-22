@@ -7,12 +7,12 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>user-service</module>
-        <module>request-service</module>
-        <module>volunteer-service</module>
-        <module>feedback-service</module>
+        <!-- Administation-Service creates a dependency for other services -->
         <module>administration-service</module>
+        <module>request-service</module>
         <module>role-service</module>
+        <module>user-service</module>
+
     </modules>
 
     <dependencyManagement>
