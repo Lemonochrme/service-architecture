@@ -20,9 +20,9 @@ Course Exercice : Application to help others
 
 - [X] `Rest` Create user
 - [X] `Rest` Login with user and password
-- [ ] `Rest` Make sure admin can do everything and users don't
-- [ ] `Rest` Create a Help Request
-- [ ] `Rest` Modify the Help Request status
+- [X] `Rest` Make sure admin can do everything and users don't
+- [X] `Rest` Create a Help Request
+- [X] `Rest` Modify the Help Request status
 - [ ] `Rest` Create a User Feedback
 - [ ] `Rest` Gather User Feedbacks
 
