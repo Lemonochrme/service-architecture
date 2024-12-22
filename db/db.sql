@@ -5,6 +5,14 @@ CREATE TABLE `users` (
   `password` text NOT NULL
 );
 
+CREATE TABLE `connections` (
+  `id` integer UNIQUE PRIMARY KEY AUTO_INCREMENT,
+  `id_user` integer NOT NULL,
+  `token` varchar(128) UNIQUE NOT NULL,
+  `created_at` timestamp DEFAULT (now()),
+  `expires_at` timestamp
+);
+
 CREATE TABLE `roles` (
   `id` integer UNIQUE PRIMARY KEY AUTO_INCREMENT,
   `name` text UNIQUE NOT NULL
@@ -29,6 +37,8 @@ CREATE TABLE `feedback` (
   `id_request` integer NOT NULL,
   `message` text NOT NULL
 );
+
+ALTER TABLE `connections` ADD FOREIGN KEY (`id_user`) REFERENCES `users` (`id`);
 
 ALTER TABLE `users` ADD FOREIGN KEY (`id_role`) REFERENCES `roles` (`id`);
 

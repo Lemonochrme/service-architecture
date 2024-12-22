@@ -43,12 +43,12 @@ check_services() {
 
 # Function to start services
 start_services() {
-  echo "" > ../process.tmp
+  echo "" > "$SCRIPT_DIR"/process.tmp
   cd "$SCRIPT_DIR/helpapp-backend" || exit 1
   for service in "${services[@]}"; do
     echo "> Starting $service..."
     mvn spring-boot:run -pl "$service" > /dev/null 2>&1 &
-    echo -e "$!" >> ../process.tmp
+    echo -e "$!" >> "$SCRIPT_DIR"/process.tmp
   done
   echo "> Waiting for the services to establish connection..."
   check_services
@@ -63,6 +63,7 @@ stop_services() {
     echo -e "\t> Killing process on port $port..."
     fuser -k $port/tcp
   done
+  rm "$SCRIPT_DIR"/process.tmp
 }
 
 # Check command line arguments
