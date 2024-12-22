@@ -9,7 +9,7 @@ ports=()
 
 list_services() {
   base_port=8081
-  cd "$SCRIPT_DIR/helpapp-backend"
+  cd "$SCRIPT_DIR/backend"
   for dir in *-service; do
     if [[ -d "$dir" ]]; then
       services+=("$dir")
@@ -44,7 +44,7 @@ check_services() {
 # Function to start services
 start_services() {
   echo "" > "$SCRIPT_DIR"/process.tmp
-  cd "$SCRIPT_DIR/helpapp-backend" || exit 1
+  cd "$SCRIPT_DIR/backend" || exit 1
   for service in "${services[@]}"; do
     echo "> Starting $service..."
     mvn spring-boot:run -pl "$service" > /dev/null 2>&1 &
@@ -74,7 +74,7 @@ elif [ "$1" == "stop" ]; then
   list_services
   stop_services
 elif [ "$1" == "compile" ]; then
-  cd "$SCRIPT_DIR/helpapp-backend" || exit 1
+  cd "$SCRIPT_DIR/backend" || exit 1
   mvn clean install
 else
   echo -e $RED"Usage: $0 {compile|start|stop}"$RESET

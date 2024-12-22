@@ -44,7 +44,7 @@ echo -e $GREEN"Database setup successful!"$RESET
 services=()
 port=8081
 echo "> Checking Microservices..."
-for dir in helpapp-backend/*-service; do
+for dir in backend/*-service; do
   if [[ -d "$dir" ]]; then
     services+=("$dir")
   fi
@@ -73,5 +73,5 @@ for service in "${services[@]}"; do
     generated_js+="const $modified_name=$port\n"
     ((port++))
 done
-echo -e "$generated_js" > helpapp-frontend/generated.js
+echo -e "$generated_js" > frontend/generated.js
 echo -e $GREEN"Setup successfull for each microservice !"
