@@ -26,7 +26,7 @@
         <!-- Depends on Administation Service to check roles -->
         <dependency>
             <groupId>insa.application.helpapp</groupId>
-            <artifactId>administration-service</artifactId>
+            <artifactId>administration</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
