@@ -9,6 +9,7 @@
     <modules>
         <!-- database-manager is a dependency for other services -->
         <module>database-manager</module>
+        <module>feedback-service</module>
         <module>request-service</module>
         <module>role-service</module>
         <module>user-service</module>
