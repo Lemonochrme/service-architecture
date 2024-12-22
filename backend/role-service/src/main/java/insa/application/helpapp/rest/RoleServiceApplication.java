@@ -15,7 +15,7 @@ import java.util.List;
 public class RoleServiceApplication {
 
     @Autowired
-    private AdministrationService administrationService;
+    private RoleRepository roleRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(RoleServiceApplication.class, args);
@@ -36,6 +36,6 @@ public class RoleServiceApplication {
 
     @GetMapping("/get_roles")
     public List<Role> getRoles() {
-        return administrationService.getRoles();
+        return roleRepository.findAll();
     }
 }

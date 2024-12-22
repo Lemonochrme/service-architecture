@@ -12,7 +12,7 @@ public class AdministrationService {
     @Autowired
     private ConnectionRepository connectionRepository;
     @Autowired
-    private RoleRepository roleRepository;
+    private UserRepository userRepository;
 
     public boolean checkToken(int idUser, String token) {
         List<Connection> connections = connectionRepository.findByIdUser(idUser);
@@ -24,22 +24,12 @@ public class AdministrationService {
         return c.getToken().equals(token) && c.getExpiresAt().isAfter(java.time.LocalDateTime.now());
     }
 
-    public boolean checkRole(int idUser, int role)
+    public Optional<Integer> getRole(int idUser)
     {
-        List<Connection> connections = connectionRepository.findByIdUser(idUser);
-
-        if (connections.isEmpty()) {
-            return false;
+        Optional<User> user = userRepository.findById(idUser);
+        if (!user.isPresent()) {
+            return Optional.empty();
         }
-        // Connection c = connections.getFirst();
-        Optional<Role> roleOption = roleRepository.findById(role);
-        if(!roleOption.isPresent()) {
-            return false;
-        }
-        return true;
-    }
-
-    public List<Role> getRoles() {
-        return roleRepository.findAll();
+        return Optional.of(user.get().getIdRole());
     }
 }

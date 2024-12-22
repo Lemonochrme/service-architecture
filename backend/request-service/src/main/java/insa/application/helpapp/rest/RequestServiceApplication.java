@@ -11,6 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @SpringBootApplication
 @RestController
@@ -41,6 +42,14 @@ public class RequestServiceApplication {
         if(!administrationService.checkToken(idUser, token)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("User or token invalid.");
         };
+        Optional<Integer> idRoleOption = administrationService.getRole(idUser);
+        if(!idRoleOption.isPresent()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User invalid.");
+        };
+        int idRole = idRoleOption.get();
+        if(idRole == RoleEnum.VOLUNTEER.getValue()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Volunteers cannot post a request.");
+        }
 
         Request request = new Request();
         // id_status = 1 means waiting. it is always set to 1 when created.
