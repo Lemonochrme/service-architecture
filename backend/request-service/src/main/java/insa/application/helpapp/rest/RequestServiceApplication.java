@@ -60,17 +60,17 @@ public class RequestServiceApplication {
         return ResponseEntity.ok(requestRepository.save(request));
     }
 
-    // Put should be : /change_status?idUser=1&idMessage=1&status=1&token=?
+    // Put should be : /change_status?idUser=1&idRequest=1&status=1&token=?
     // Response if success: the request with the changed status
     @PutMapping("/change_status")
     public ResponseEntity<?> changeStatus(@RequestParam int idUser, @RequestParam String token,
-            @RequestParam int idMessage, @RequestParam int status) {
+            @RequestParam int idRequest, @RequestParam int status) {
         if (!administrationService.checkToken(idUser, token)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("User or token invalid.");
         }
-        Optional<Request> requestOption = requestRepository.findById(idMessage);
+        Optional<Request> requestOption = requestRepository.findById(idRequest);
         if (!requestOption.isPresent()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No message found with the following ID.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No request found with the following ID.");
         }
         Request request = requestOption.get();
 
@@ -115,6 +115,5 @@ public class RequestServiceApplication {
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body("Only Admins can perform this action.");
     }
-
 
 }

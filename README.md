@@ -23,7 +23,7 @@ Course Exercice : Application to help others
 - [X] `Rest` Make sure admin can do everything and users don't
 - [X] `Rest` Create a Help Request
 - [X] `Rest` Modify the Help Request status
-- [ ] `Rest` Create a User Feedback
+- [X] `Rest` Create a User Feedback
 - [ ] `Rest` Gather User Feedbacks
 
 ## Check `SOAP` Requests
