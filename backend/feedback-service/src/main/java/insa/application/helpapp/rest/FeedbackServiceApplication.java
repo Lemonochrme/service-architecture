@@ -8,10 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
 
 @SpringBootApplication
 @RestController
@@ -63,5 +63,15 @@ public class FeedbackServiceApplication {
         feedback.setIdUser(idUser);
         feedback.setMessage(message);
         return ResponseEntity.ok(feedbackRepository.save(feedback));
+    }
+
+    @GetMapping("/get_feedback")
+    public ResponseEntity<?> GetFeedback(@RequestParam int idRequest)
+    {
+        List<Feedback> feedbacks = feedbackRepository.findByIdRequest(idRequest);
+        if(feedbacks.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No feedback exists for the following request.");
+        }
+        return ResponseEntity.ok(feedbacks);
     }
 }

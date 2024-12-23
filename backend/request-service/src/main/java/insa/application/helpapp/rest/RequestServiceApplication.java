@@ -11,6 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @SpringBootApplication
@@ -116,4 +117,12 @@ public class RequestServiceApplication {
                 .body("Only Admins can perform this action.");
     }
 
+    @GetMapping("/get_request")
+    public ResponseEntity<?> getRoles() {
+        List<Request> requests = requestRepository.findAll();
+        if(requests.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No requests.");
+        }
+        return ResponseEntity.ok(requests);
+    }
 }
